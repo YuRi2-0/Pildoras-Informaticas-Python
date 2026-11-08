@@ -6,6 +6,9 @@ frame = Frame(raiz)
 
 frame.pack()
 
+operacion = ""
+resultado = 0
+
 digito_display = StringVar()
 
 display = Entry(frame, font="Arial 30", textvariable=digito_display)
@@ -18,10 +21,41 @@ display.config(background="#000", fg="#00db00", justify="right")
 
 def pulsacionesTeclas(numPulsado):
 
-    digito_display.set(digito_display.get() + numPulsado)
+    global operacion
+    
+    if operacion != "":
+        digito_display.set(numPulsado)
+        operacion = ""
+    else:
+        digito_display.set(digito_display.get() + numPulsado)
+
+# ------------------------- funcion suma -------------------------
+
+def suma(num):
+    
+    global operacion
+    
+    global resultado
+    
+    resultado+=int(num)
+    
+    operacion = "suma"
+    
+    digito_display.set(resultado)
+
+    
+# ------------------------- funcion total -------------------------
+
+def total():
+    global resultado
+    
+    digito_display.set(resultado + int(digito_display.get()))
+    resultado = 0
+
 
 
 # ------------------------- PRIMERA FILA -------------------------
+
 
 
 boton7 = Button(frame, text="7", width=15, command=lambda: pulsacionesTeclas("7"))
@@ -69,10 +103,10 @@ boton0.grid(row=5, column=1)
 boton_coma = Button(frame, text=",", width=15, command=lambda: pulsacionesTeclas("."))
 boton_coma.grid(row=5, column=2)
 
-btn_igual = Button(frame, text="=", width=15)
+btn_igual = Button(frame, text="=", width=15, command=lambda:total())
 btn_igual.grid(row=5, column=3)
 
-btn_sumar = Button(frame, text="+", width=15)
+btn_sumar = Button(frame, text="+", width=15, command=lambda:suma(digito_display.get()))
 btn_sumar.grid(row=5, column=4)
 
 
